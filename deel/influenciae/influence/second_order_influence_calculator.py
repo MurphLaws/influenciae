@@ -209,7 +209,5 @@ class SecondOrderInfluenceCalculator(BaseGroupInfluenceCalculator):
         """
         ds_size = self.assert_compatible_datasets(group_train, group_to_evaluate)
         influence = tf.transpose(self.compute_influence_vector_group(group_train))
-        reduced_grads = tf.reduce_sum(tf.reshape(self.model.batch_jacobian(group_to_evaluate),
-                                                 (ds_size, -1)), axis=0, keepdims=True)
-
+        reduced_grads = tf.reshape(self.model.batch_jacobian(group_to_evaluate),(ds_size, -1))
         return tf.matmul(reduced_grads, influence)
